@@ -2,9 +2,9 @@ FROM nestybox/ubuntu-jammy-systemd-docker
 
 # Extra deps for GHA Runner
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update \
-    apt-get dist-upgrade \
-    && apt-get install -y \
+RUN apt-get update && \
+    apt-get dist-upgrade && \
+    apt-get install -y \
     curl \
     jq \
     sudo \
@@ -16,9 +16,9 @@ RUN apt-get update \
     ca-certificates \
     clang \
     libpq-dev \
-    libssl-dev
-    pkg-config \
-    && rm -rf /var/lib/apt/list/*
+    libssl-dev \
+    pkg-config && \
+    rm -rf /var/lib/apt/list/*
 
 # Add and config runner user as sudo
 # Remove default admin user

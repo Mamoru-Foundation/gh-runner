@@ -1,8 +1,8 @@
-name: Builds and pushes tagged image to ECR and DockerHub
+name: Builds and pushes an image to DockerHub
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   build_push_docker_hub:
