@@ -1,8 +1,9 @@
-FROM nestybox/ubuntu-focal-systemd-docker
+FROM nestybox/ubuntu-jammy-systemd-docker
 
 # Extra deps for GHA Runner
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
+    apt-get dist-upgrade \
     && apt-get install -y \
     curl \
     jq \
@@ -11,11 +12,17 @@ RUN apt-get update \
     wget \
     zip \
     git \
+    build-essential \
+    ca-certificates \
+    clang \
+    libpq-dev \
+    libssl-dev
+    pkg-config \
     && rm -rf /var/lib/apt/list/*
 
 # Add and config runner user as sudo
 # Remove default admin user
-# https://github.com/nestybox/dockerfiles/blob/master/ubuntu-focal-systemd/Dockerfile
+# https://github.com/nestybox/dockerfiles/blob/master/ubuntu-jammy-systemd/Dockerfile
 RUN useradd -m runner \
     && usermod -aG sudo runner \
     && usermod -aG docker runner \
@@ -52,6 +59,12 @@ COPY startup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/startup.sh 
 
 USER runner
+
+ENV PATH="/home/runner/.cargo/bin:${PATH}"
+
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
+    && rustup update \
+    && rustup install stable
 
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
 CMD ["startup.sh"]
