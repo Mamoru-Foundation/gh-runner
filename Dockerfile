@@ -3,7 +3,7 @@ FROM nestybox/ubuntu-jammy-systemd-docker
 # Extra deps for GHA Runner
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
-    apt-get dist-upgrade && \
+    apt-get dist-upgrade -y && \
     apt-get install -y \
     curl \
     jq \
