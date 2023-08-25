@@ -60,11 +60,6 @@ RUN chmod +x /usr/local/bin/startup.sh
 
 USER runner
 
-ENV PATH="/home/runner/.cargo/bin:${PATH}"
-
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
-    && rustup update \
-    && rustup install stable
 
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
 CMD ["startup.sh"]
